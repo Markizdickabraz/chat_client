@@ -1,6 +1,6 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
+import './Chat.css'
 
 const Chat = () => {
   const [message, setMessage] = useState('');
@@ -17,7 +17,8 @@ const Chat = () => {
     return () => {
       socket.disconnect();
     };
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); 
 
   const sendMessage = () => {
     // Відправка повідомлення на сервер
@@ -26,19 +27,29 @@ const Chat = () => {
   };
 
   return (
-    <div>
-      <h1>Chat</h1>
-      <ul>
-        {messages.map((msg, index) => (
-          <li key={index}>{msg}</li>
-        ))}
-      </ul>
-      <input
-        type="text"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
-      <button onClick={sendMessage}>Send</button>
+    <div className="chat">
+      <h1 className="chat-heading">Chat</h1>
+      <div className="chat-container">
+        <div className="message-list">
+          {messages.map((msg, index) => (
+            <div key={index} className="message">
+              {msg}
+            </div>
+          ))}
+        </div>
+        <div className="input-container">
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            className="message-input"
+            placeholder="Type your message..."
+          />
+          <button onClick={sendMessage} className="send-button">
+            Send
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
